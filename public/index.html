@@ -23,16 +23,16 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 .tab.on{color:#e8c56a;border-bottom-color:#e8c56a}
 
 /* Main */
-.main{max-width:1120px;margin:0 auto;padding:24px 28px}
+.main{max-width:1200px;margin:0 auto;padding:32px 36px}
 
 /* Query */
 .qrow{display:flex;gap:10px;margin-bottom:14px}
-.qin{flex:1;background:#13131e;border:1px solid #333345;border-radius:7px;padding:12px 15px;color:#e8e4d9;font-size:14px;outline:none;font-family:Georgia,serif;transition:border-color .15s}
+.qin{flex:1;background:#13131e;border:1px solid #333345;border-radius:7px;padding:14px 18px;color:#e8e4d9;font-size:15px;outline:none;font-family:Georgia,serif;transition:border-color .15s}
 .qin:focus{border-color:#e8c56a}
-.qbtn{padding:12px 22px;background:#e8c56a;color:#0a0a0f;border:none;border-radius:7px;font-weight:bold;font-size:13px;cursor:pointer;font-family:Georgia,serif;transition:background .15s}
+.qbtn{padding:14px 28px;background:#e8c56a;color:#0a0a0f;border:none;border-radius:7px;font-weight:bold;font-size:14px;cursor:pointer;font-family:Georgia,serif;transition:background .15s}
 .qbtn:disabled{background:#252530;color:#555;cursor:not-allowed}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
-.chip{padding:5px 11px;background:#13131e;border:1px solid #2a2a38;border-radius:14px;color:#888;font-size:11px;cursor:pointer;transition:all .15s}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{padding:6px 14px;background:#13131e;border:1px solid #2a2a38;border-radius:14px;color:#888;font-size:12px;cursor:pointer;transition:all .15s}
 .chip:hover{border-color:#e8c56a;color:#e8c56a}
 .ans-box{background:#0f0f1a;border:1px solid #252545;border-radius:9px;padding:22px}
 .ans-meta{font-size:10px;color:#444;margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap}
@@ -47,7 +47,7 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 .cors-warn code{background:#252510;padding:2px 6px;border-radius:3px;font-size:11px}
 
 /* Insights — 2-col grid */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:680px){.g2{grid-template-columns:1fr}}
 .card{background:#0f0f1a;border:1px solid #232335;border-radius:9px;padding:18px}
 .ct{font-size:10px;color:#444;margin-bottom:14px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid #1a1a28;padding-bottom:8px}
@@ -117,6 +117,11 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 /* Util */
 #tab-q,#tab-i,#tab-l,#tab-t,#tab-d{display:none}
 #tab-q.on,#tab-i.on,#tab-l.on,#tab-t.on,#tab-d.on{display:block}
+.q-layout{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:900px){.q-layout{grid-template-columns:420px 1fr;align-items:start}}
+.q-left{position:sticky;top:20px}
+.q-right{min-height:400px}
+.ans-placeholder{display:flex;align-items:center;justify-content:center;min-height:400px;color:#2a2a3a;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border:1px dashed #1a1a28;border-radius:9px}
 .section-note{font-size:11px;color:#444;margin-bottom:16px;line-height:1.6;padding:10px 14px;background:#0f0f18;border-left:3px solid #2a2a3a;border-radius:0 6px 6px 0}
 </style>
 </head>
@@ -131,6 +136,7 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
     <div class="hdr-stat"><div class="n" id="s-n" style="color:#e8e4d9">—</div><div class="l">Respondents</div></div>
     <div class="hdr-stat"><div class="n" id="s-studies" style="color:#6ab8e8">—</div><div class="l">Studies</div></div>
     <div class="hdr-stat"><div class="n" id="s-years" style="color:#888">—</div><div class="l">Years</div></div>
+    <div class="hdr-stat"><div class="n" id="s-lava" style="color:#e8c56a">18</div><div class="l">Lava Mentions</div></div>
     <div class="hdr-stat"><div class="n" id="s-topk" style="color:#555">—</div><div class="l">Retrieved</div></div>
   </div>
 </div>
@@ -147,18 +153,21 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 
 <!-- QUERY -->
 <div id="tab-q" class="on">
-  <div class="cors-warn" id="cors-warn" style="display:none">
-    ⚠️ <strong>Opened as local file</strong> — the Claude API requires an HTTP server.<br>
-    Options: (1) Open in <strong>claude.ai</strong> as an artifact&nbsp;&nbsp;
-    (2) Run <code>python -m http.server 8080</code> in the file's folder, then open <code>http://localhost:8080</code>&nbsp;&nbsp;
-    (3) Deploy to Netlify (drag-and-drop the file)
+  <div class="q-layout">
+    <div class="q-left">
+      <div class="qrow">
+        <input class="qin" id="qi" placeholder="Ask anything about 310 respondents..." onkeydown="if(event.key==='Enter')runQ()"/>
+      </div>
+      <div style="margin-bottom:14px">
+        <button class="qbtn" id="qbtn" onclick="runQ()" style="width:100%;margin-top:10px">Query →</button>
+      </div>
+      <div style="font-size:10px;color:#444;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Quick queries</div>
+      <div class="chips" id="qchips"></div>
+    </div>
+    <div class="q-right">
+      <div id="qa"><div class="ans-placeholder">← Run a query to see insights</div></div>
+    </div>
   </div>
-  <div class="qrow">
-    <input class="qin" id="qi" placeholder="Ask anything about the respondents..." onkeydown="if(event.key==='Enter')runQ()"/>
-    <button class="qbtn" id="qbtn" onclick="runQ()">Query</button>
-  </div>
-  <div class="chips" id="qchips"></div>
-  <div id="qa"></div>
 </div>
 
 <!-- INSIGHTS -->
@@ -172,9 +181,13 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 
 <!-- LAVA INTEL -->
 <div id="tab-l">
-  <div class="section-note" id="lava-denom-note"></div>
-  <div class="ag" id="lava-ag"></div>
-  <div class="sg" id="lava-sg"></div>
+  <div class="section-note">
+    These are the <strong>18 detailed Lava mentions</strong> captured across the corpus — 
+    respondents who explicitly referenced Lava in their interview. 
+    This is a purchase journey corpus, not a brand tracking study — 
+    absence of Lava mention does not indicate unawareness.
+  </div>
+  <div id="lava-sg" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px"></div>
   <div class="card" style="margin-bottom:16px">
     <div class="ct">All Lava Verbatims — Voice of Consumer <span style="font-weight:normal;font-style:italic;color:#444">(probed + spontaneous mentions only)</span></div>
     <div id="lava-verbs"></div>
@@ -570,26 +583,13 @@ function renderLava() {
   const notAsked= RECS.filter(r=>r.lava.sentiment==='not_asked');
   const n = RECS.length;
   
-  document.getElementById('lava-denom-note').innerHTML =
-    `<strong>Important denominator:</strong> Of ${n} total respondents, only <strong>${probed.length}</strong> were in studies with an explicit Lava probe question. ` +
-    `Of those, <strong>${aware.length}</strong> showed any awareness. The remaining <strong>${notAsked.length}</strong> were never asked about Lava — ` +
-    `their absence from Lava stats does <em>not</em> mean rejection.`;
-  
-  // Awareness grid
-  document.getElementById('lava-ag').innerHTML=[
-    {n:n,          l:'Total Respondents',  s:'All studies 2024–2026',          c:'#e8e4d9'},
-    {n:probed.length,l:'Lava Probed',      s:'Studies with explicit Lava Q',   c:'#9070c0'},
-    {n:aware.length, l:'Any Awareness',    s:`Of ${probed.length} probed`,     c:'#e8c56a'},
-    {n:users.length, l:'Current Lava User',s:'Repeat buyer (Agni 2→3)',        c:'#a87ae8'},
-    {n:pos.length,   l:'Positive Intent',  s:'Would buy / like it',            c:'#55e09a'},
-    {n:cond.length,  l:'Conditional',      s:'"If features / software accha"', c:'#6aace8'},
-  ].map(s=>`<div class="ac"><div class="n" style="color:${s.c}">${s.n}</div><div class="l">${s.l}</div><div class="s">${s.s}</div></div>`).join('');
+  // Simple 4-stat grid only
   
   document.getElementById('lava-sg').innerHTML=[
-    {n:neg.length,   l:'Explicit No',     c:'#e05555'},
-    {n:bf.length,    l:'Brand Floor',     c:'#e07755'},
-    {n:neutral.length,l:'Aware Neutral',  c:'#777'},
-    {n:verbs.length, l:'Verbatims',       c:'#a86ae8'},
+    {n:verbs.length,  l:'Detailed Mentions', c:'#e8c56a'},
+    {n:users.length,  l:'Current Lava User', c:'#a87ae8'},
+    {n:pos.length,    l:'Positive Intent',   c:'#55e09a'},
+    {n:neg.length+bf.length, l:'Rejection / Brand Floor', c:'#e05555'},
   ].map(s=>`<div class="sc"><div class="n" style="color:${s.c}">${s.n}</div><div class="l">${s.l}</div></div>`).join('');
   
   // Verbatims
