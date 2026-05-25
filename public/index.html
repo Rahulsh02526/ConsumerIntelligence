@@ -416,7 +416,8 @@ Cite actual names and verbatims. Be specific. Note if a finding comes from only 
       body:JSON.stringify({query:q})
     });
     const d=await resp.json();
-    const txt=d.content?.[0]?.text||'No response';
+    // Show error details if Anthropic returned an error
+    const txt=d.content?.[0]?.text || (d.error ? 'API Error: '+JSON.stringify(d.error) : d.type==='error' ? 'API Error: '+d.error?.message : 'No response');
     const names=topK.slice(0,8).map(r=>r.name.split(' ')[0]).join(', ');
     document.getElementById('qa').innerHTML=`<div class="ans-box">
       <div class="ans-meta">
