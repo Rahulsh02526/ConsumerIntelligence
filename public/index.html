@@ -31,7 +31,7 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 .qin:focus{border-color:#e8c56a}
 .qbtn{padding:14px 28px;background:#e8c56a;color:#0a0a0f;border:none;border-radius:7px;font-weight:bold;font-size:14px;cursor:pointer;font-family:Georgia,serif;transition:background .15s}
 .qbtn:disabled{background:#252530;color:#555;cursor:not-allowed}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
 .chip{padding:6px 14px;background:#13131e;border:1px solid #2a2a38;border-radius:14px;color:#888;font-size:12px;cursor:pointer;transition:all .15s}
 .chip:hover{border-color:#e8c56a;color:#e8c56a}
 .ans-box{background:#0f0f1a;border:1px solid #252545;border-radius:9px;padding:22px}
@@ -117,11 +117,12 @@ body{background:#0a0a0f;color:#e8e4d9;font-family:Georgia,serif;min-height:100vh
 /* Util */
 #tab-q,#tab-i,#tab-l,#tab-t,#tab-d{display:none}
 #tab-q.on,#tab-i.on,#tab-l.on,#tab-t.on,#tab-d.on{display:block}
-.q-layout{display:grid;grid-template-columns:1fr;gap:24px}
-@media(min-width:900px){.q-layout{grid-template-columns:420px 1fr;align-items:start}}
-.q-left{position:sticky;top:20px}
-.q-right{min-height:400px}
-.ans-placeholder{display:flex;align-items:center;justify-content:center;min-height:400px;color:#2a2a3a;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border:1px dashed #1a1a28;border-radius:9px}
+.q-layout{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:900px){.q-layout{grid-template-columns:400px 1fr;align-items:start;gap:24px}}
+.q-left{order:1}
+.q-right{order:0}
+@media(min-width:900px){.q-left{order:0;position:sticky;top:20px}.q-right{order:1}}
+.ans-placeholder{display:flex;align-items:center;justify-content:center;min-height:200px;color:#2a2a3a;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:1px dashed #1a1a28;border-radius:9px}
 .section-note{font-size:11px;color:#444;margin-bottom:16px;line-height:1.6;padding:10px 14px;background:#0f0f18;border-left:3px solid #2a2a3a;border-radius:0 6px 6px 0}
 </style>
 </head>
