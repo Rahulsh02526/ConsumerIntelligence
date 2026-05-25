@@ -411,10 +411,9 @@ LAVA CONTEXT (for relevant queries): 1 current Lava user in corpus. 71 responden
 Cite actual names and verbatims. Be specific. Note if a finding comes from only the retrieved subset.`;
   
   try {
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+    const resp=await fetch('/api/query',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,
-        messages:[{role:'user',content:`RESPONDENTS (${topK.length} retrieved of ${RECS.length}):\n${ctx}\n\nQUERY: ${q}`}]})
+      body:JSON.stringify({query:q})
     });
     const d=await resp.json();
     const txt=d.content?.[0]?.text||'No response';
